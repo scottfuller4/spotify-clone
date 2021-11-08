@@ -9,12 +9,22 @@
       </button>
     </div>
     <div class="navDropdown">
-      <div class="userPhoto"></div>
-      <p class="userName">Scott Fuller</p>
+      <!-- <div class="userPhoto"></div> -->
+      <img :src="user.images[0].url" alt="" class="userPhoto" />
+      <p class="userName">{{ user.display_name }}</p>
       <font-awesome-icon icon="caret-down" />
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: ["user"],
+  created() {
+    console.log(this.$props.user);
+  },
+};
+</script>
 
 <style scoped>
 .header-bar {
@@ -60,7 +70,7 @@ button {
 .userPhoto {
   width: 28px;
   height: 28px;
-  background: var(--color-white);
+  /* background: var(--color-white); */
   border-radius: 50%;
 }
 
