@@ -33,10 +33,16 @@
         </li>
       </ul>
     </div>
+    <ul className="playlists">
+      <li v-for="playlist in playlists" :key="playlist.id" className="playlist">
+        {{ playlist.name }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -59,17 +65,47 @@ export default {
       ],
     };
   },
+  computed: {
+    accessToken() {
+      return this.$store.getters.getAccessToken;
+    },
+    userId() {
+      return this.$store.getters.getUser.id;
+    },
+    playlists() {
+      return this.$store.getters.getPlaylists;
+    },
+  },
+  created() {
+    // console.log(this.accessToken, this.userId);
+    if (this.accessToken && this.userId && !this.playlists) {
+      axios
+        .get(
+          `https://api.spotify.com/v1/users/${this.userId}/playlists?limit=40`,
+          {
+            headers: {
+              Authorization: "Bearer " + this.accessToken,
+            },
+            json: true,
+          }
+        )
+        .then((response) => {
+          this.$store.commit("mutatePlaylists", response.data.items);
+        });
+    }
+  },
 };
 </script>
 
 <style scoped>
 .side-bar {
   background: #000000;
-  width: 240px;
+  width: 224px;
+  max-height: 100vh;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-top: 24px;
+  padding: 24px 8px 0 8px;
 }
 
 img {
@@ -78,9 +114,9 @@ img {
   width: 52%;
 }
 
-.navItems {
+/* .navItems {
   padding: 0 8px;
-}
+} */
 
 .navItem {
   display: flex;
@@ -102,10 +138,11 @@ img {
 
 .navActions {
   margin-top: 24px;
+  border-bottom: 2px solid #282828;
 }
 
 .navItemLast {
-  border-bottom: 2px solid #282828;
+  /* border-bottom: 2px solid #282828; */
   padding-bottom: 5px;
 }
 
@@ -139,5 +176,18 @@ ul {
 
 .actionsIconPlus {
   color: var(--color-black);
+}
+
+.playlists {
+  overflow: scroll;
+  list-style: none;
+}
+
+.playlist {
+  text-align: left;
+  padding: 0 16px;
+  margin: 16px 0;
+  font-size: 14px;
+  cursor: pointer;
 }
 </style>

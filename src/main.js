@@ -16,6 +16,7 @@ import {
   faBackward,
   faRandom,
   faRedo,
+  faVolumeUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { createRouter, createWebHistory } from "vue-router";
@@ -35,7 +36,8 @@ library.add(
   faForward,
   faBackward,
   faRandom,
-  faRedo
+  faRedo,
+  faVolumeUp
 );
 
 const routes = [
@@ -55,7 +57,8 @@ const store = createStore({
     return {
       user: null,
       access_token: null,
-      refresh_token: null,
+      playlists: null,
+      currentlyPlaying: null,
     };
   },
   mutations: {
@@ -65,6 +68,12 @@ const store = createStore({
     mutateAccessToken(state, payload) {
       state.access_token = payload;
     },
+    mutatePlaylists(state, payload) {
+      state.playlists = payload;
+    },
+    mutateCurrentlyPlaying(state, payload) {
+      state.currentlyPlaying = payload;
+    },
   },
   getters: {
     getUser(state) {
@@ -72,6 +81,12 @@ const store = createStore({
     },
     getAccessToken(state) {
       return state.access_token;
+    },
+    getPlaylists(state) {
+      return state.playlists;
+    },
+    getCurrentlyPlaying(state) {
+      return state.currentlyPlaying;
     },
   },
 });

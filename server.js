@@ -1,96 +1,3 @@
-// const express = require("express");
-// const request = require("request"); // "Request" library
-// const cors = require("cors");
-// const querystring = require("query-string");
-// const app = express();
-// app.use(express.static(__dirname + "/public")).use(cors());
-
-// const client_id = "8e5e35500b7d415f8230aed47a4a0c2a";
-// const client_secret = "91224ab4a9414da1ace717b1699a2534";
-// const redirect_uri = "http://localhost:8080/callback";
-// const server_address = "http://localhost:8081"; // by default it should be http://localhost:8080 or 8081 by default
-// const frontend_server_port = "8080"; // your Vue server port (8080 or 8081 by default)
-// const scope = "user-read-email user-read-private";
-
-// app.get("/login", function (req, res) {
-//   console.log("executed");
-//   // redirect to Spotify login page
-//   res.writeHead(302, {
-//     Location: encodeURI(
-//       `https://accounts.spotify.com/authorize` +
-//         `?client_id=${client_id}` +
-//         `&response_type=code` +
-//         `&redirect_uri=${redirect_uri}` +
-//         `&scope=${scope}` +
-//         `&show_dialog=true`
-//     ),
-//   });
-//   res.send();
-// });
-
-// app.get("/callback", function (req, res) {
-//   console.log("did you run?");
-//   //change '/callback' if your redirect_uri has different ending (without slash at the end)
-//   // after successful login make api call to get you profile's data
-//   const code = req.query.code || null;
-//   const authOptions = {
-//     url: "https://accounts.spotify.com/api/token",
-//     form: {
-//       code: code,
-//       redirect_uri: redirect_uri,
-//       grant_type: "authorization_code",
-//     },
-//     headers: {
-//       Authorization:
-//         "Basic " +
-//         new Buffer.from(client_id + ":" + client_secret).toString("base64"),
-//     },
-//     json: true,
-//   };
-
-//   console.log({ authOptions });
-
-//   request.post(authOptions, function (error, response, body) {
-//     if (!error && response.statusCode === 200) {
-//       const access_token = body.access_token;
-//       console.log({ access_token });
-//       const refresh_token = body.refresh_token;
-//       console.log({ refresh_token });
-//       //pass the tokens to the browser as a query params to make requests from there
-//       res.redirect(
-//         server_address + `?token=${access_token}`
-//         // +
-//         //   querystring.stringify({
-//         //     access_token: access_token,
-//         //     // refresh_token: refresh_token,
-//         //   })
-//       );
-//     } else {
-//       res.redirect(
-//         server_address +
-//           querystring.stringify({
-//             error: "invalid_token",
-//           })
-//       );
-//     }
-//   });
-// });
-
-// // port on with your Vue app is running
-// app.listen(frontend_server_port);
-
-// var http = require("http");
-
-// /* Create an HTTP server to handle responses */
-
-// http
-//   .createServer(function (request, response) {
-//     response.writeHead(200, { "Content-Type": "text/plain" });
-//     response.write("Hello World");
-//     response.end();
-//   })
-//   .listen(8888);
-
 /**
  * This is an example of a basic node.js script that performs
  * the Authorization Code oAuth2 flow to authenticate against
@@ -141,7 +48,8 @@ app.get("/login", function (req, res) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = "user-read-private user-read-email";
+  var scope =
+    "user-read-private user-read-email user-read-currently-playing user-read-playback-state";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({

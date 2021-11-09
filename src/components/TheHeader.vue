@@ -20,9 +20,6 @@
 <script>
 export default {
   props: ["user"],
-  created() {
-    console.log(this.$props.user);
-  },
 };
 </script>
 

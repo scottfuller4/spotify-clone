@@ -1,31 +1,135 @@
 <template>
   <div class="player-bar">
-    <div class="player-controls">
-      <div class="player-controls-buttons">
-        <font-awesome-icon icon="random" class="icon" />
-        <font-awesome-icon icon="backward" class="icon" />
-        <div class="icon-center-container">
-          <font-awesome-icon icon="play" class="icon icon-center" />
+    <div class="player-bar-top">
+      <div class="current-song" v-if="currentSong">
+        <div>
+          <img
+            :src="currentSong?.item.album.images[0].url"
+            class="current-song-image"
+            alt=""
+          />
         </div>
-        <font-awesome-icon icon="forward" class="icon" />
-        <font-awesome-icon icon="redo" class="icon" />
+        <div class="song-info">
+          <p class="song-name">{{ currentSong.item.name }}</p>
+          <p class="song-artists">{{ artists }}</p>
+        </div>
       </div>
-      <div class="player-controls-progress"></div>
+      <div class="player-controls">
+        <div class="player-controls-buttons">
+          <font-awesome-icon icon="random" class="icon" />
+          <font-awesome-icon icon="backward" class="icon" />
+          <div class="icon-center-container">
+            <font-awesome-icon icon="play" class="icon icon-center" />
+          </div>
+          <font-awesome-icon icon="forward" class="icon" />
+          <font-awesome-icon icon="redo" class="icon" />
+        </div>
+        <div class="player-controls-progress"></div>
+      </div>
+      <div>volume controls here</div>
+    </div>
+    <div
+      :v-if="currentSong && currentSong.is_playing"
+      class="currently-playing-bar"
+    >
+      <div class="currently-playing-bar-container">
+        <font-awesome-icon icon="volume-up" class="icon" />
+        <p>Listening on {{ currentSong?.device.name }}</p>
+      </div>
     </div>
   </div>
 </template>
 
+<script>
+import axios from "axios";
+export default {
+  data() {
+    return {
+      currentSong: null,
+      artists: null,
+    };
+  },
+  computed: {
+    accessToken() {
+      return this.$store.getters.getAccessToken;
+    },
+    currentlyPlaying() {
+      return this.$store.getters.getCurrentlyPlaying;
+    },
+  },
+  watch: {
+    currentlyPlaying(value) {
+      console.log({ value });
+      if (value) {
+        this.currentSong = value;
+
+        this.artists = value.item.album.artists
+          .map((artist) => artist.name)
+          .join(", ");
+      }
+    },
+  },
+  created() {
+    console.log(this.accessToken);
+    console.log(this.currentlyPlaying);
+    if (this.accessToken) {
+      axios
+        .get(`https://api.spotify.com/v1/me/player`, {
+          headers: {
+            Authorization: "Bearer " + this.accessToken,
+          },
+          json: true,
+        })
+        .then((response) => {
+          // console.log("playing", response);
+          this.$store.commit("mutateCurrentlyPlaying", response.data);
+        });
+    }
+  },
+};
+</script>
+
 <style scoped>
 .player-bar {
   background: #181818;
-  height: 80px;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 20;
   border-top: 1px solid #282828;
-  padding: 0 16px;
+}
+
+.player-bar-top {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.current-song {
+  display: flex;
+  align-items: center;
+}
+
+.current-song-image {
+  height: 56px;
+  width: 56px;
+}
+
+.song-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 8px;
+}
+
+.song-name {
+  font-size: 14px;
+}
+
+.song-artists {
+  font-size: 12px;
 }
 
 .player-controls {
@@ -34,7 +138,6 @@
   justify-content: center;
   align-items: center;
   height: inherit;
-  /* padding: 10px 0; */
 }
 
 .player-controls-buttons {
@@ -75,5 +178,24 @@
   background: #535353;
   border-radius: 50px;
   margin-top: 12px;
+}
+
+.currently-playing-bar {
+  background: var(--color-green);
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.currently-playing-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: var(--color-black);
+  font-size: 12px;
+  font-weight: bold;
+  padding: 3px 0;
+  padding-right: 70px;
 }
 </style>

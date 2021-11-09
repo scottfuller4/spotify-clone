@@ -34,48 +34,30 @@ export default {
   computed: {
     user() {
       return this.$store.getters.getUser;
-      // return null;
+    },
+    accessToken() {
+      return this.$store.getters.getAccessToken;
     },
   },
   watch: {
     $route(to) {
       // react to route changes...
       const token = to.query.access_token;
-      if (token) {
+      if (token && !this.accessToken) {
+        this.$store.commit("mutateAccessToken", token);
         axios
           .get("https://api.spotify.com/v1/me", {
-            // method: "GET",
             headers: {
               Authorization: "Bearer " + token,
             },
             json: true,
           })
           .then((response) => {
-            // console.log({ response });
             this.$store.commit("mutateUser", response.data);
-            console.log("Response from server: ");
-            console.log(this.$store.state.user);
           });
       }
     },
   },
-  // created() {
-  //   console.log(this.$route);
-  //   console.log(this.$route.query.token);
-
-  //   if (this.$route.query.token) {
-  //     fetch("https://api.spotify.com/v1/users/12167869788", {
-  //       headers: {
-  //         Authorization: this.$route.query.token,
-  //       },
-  //     }).then((response) => {
-  //       console.log({ response });
-  //       this.$store.commit("mutateUser", response.data);
-  //       console.log("Response from server: ");
-  //       console.log(this.$store.state.user);
-  //     });
-  //   }
-  // },
 };
 </script>
 
