@@ -59,6 +59,7 @@ const store = createStore({
       access_token: null,
       playlists: null,
       currentlyPlaying: null,
+      topArtists: null,
     };
   },
   mutations: {
@@ -74,6 +75,9 @@ const store = createStore({
     mutateCurrentlyPlaying(state, payload) {
       state.currentlyPlaying = payload;
     },
+    mutateTopArtists(state, payload) {
+      state.topArtists = payload;
+    },
   },
   getters: {
     getUser(state) {
@@ -87,6 +91,9 @@ const store = createStore({
     },
     getCurrentlyPlaying(state) {
       return state.currentlyPlaying;
+    },
+    getTopArtists(state) {
+      return state.topArtists;
     },
   },
 });

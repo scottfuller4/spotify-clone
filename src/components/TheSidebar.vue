@@ -69,26 +69,20 @@ export default {
     accessToken() {
       return this.$store.getters.getAccessToken;
     },
-    userId() {
-      return this.$store.getters.getUser.id;
-    },
     playlists() {
       return this.$store.getters.getPlaylists;
     },
   },
   created() {
     // console.log(this.accessToken, this.userId);
-    if (this.accessToken && this.userId && !this.playlists) {
+    if (this.accessToken && !this.playlists) {
       axios
-        .get(
-          `https://api.spotify.com/v1/users/${this.userId}/playlists?limit=40`,
-          {
-            headers: {
-              Authorization: "Bearer " + this.accessToken,
-            },
-            json: true,
-          }
-        )
+        .get(`https://api.spotify.com/v1/me/playlists?limit=50`, {
+          headers: {
+            Authorization: "Bearer " + this.accessToken,
+          },
+          json: true,
+        })
         .then((response) => {
           this.$store.commit("mutatePlaylists", response.data.items);
         });

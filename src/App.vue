@@ -5,6 +5,10 @@
         <TheSidebar />
         <main>
           <TheHeader :user="this.user" />
+          <div class="main-container">
+            <TheFeatured />
+            <TheRecommended />
+          </div>
         </main>
       </div>
       <ThePlayerBar />
@@ -22,6 +26,8 @@
 import TheHeader from "./components/TheHeader.vue";
 import ThePlayerBar from "./components/ThePlayerBar.vue";
 import TheSidebar from "./components/TheSidebar.vue";
+import TheFeatured from "./components/TheFeatured.vue";
+import TheRecommended from "./components/TheRecommended.vue";
 
 import axios from "axios";
 export default {
@@ -30,6 +36,8 @@ export default {
     TheHeader,
     ThePlayerBar,
     TheSidebar,
+    TheFeatured,
+    TheRecommended,
   },
   computed: {
     user() {
@@ -89,5 +97,10 @@ main {
 
 p {
   margin: 0;
+}
+
+.main-container {
+  padding: 24px 32px 0;
+  overflow: scroll;
 }
 </style>

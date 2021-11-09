@@ -1,8 +1,8 @@
 <template>
   <div class="player-bar">
     <div class="player-bar-top">
-      <div class="current-song" v-if="currentSong">
-        <div>
+      <div class="current-song">
+        <div v-if="currentSong">
           <img
             :src="currentSong?.item.album.images[0].url"
             class="current-song-image"
@@ -10,7 +10,7 @@
           />
         </div>
         <div class="song-info">
-          <p class="song-name">{{ currentSong.item.name }}</p>
+          <p class="song-name">{{ currentSong?.item.name }}</p>
           <p class="song-artists">{{ artists }}</p>
         </div>
       </div>
@@ -29,8 +29,8 @@
       <div>volume controls here</div>
     </div>
     <div
-      :v-if="currentSong && currentSong.is_playing"
       class="currently-playing-bar"
+      v-if="currentSong && currentSong.is_playing"
     >
       <div class="currently-playing-bar-container">
         <font-awesome-icon icon="volume-up" class="icon" />
@@ -59,8 +59,8 @@ export default {
   },
   watch: {
     currentlyPlaying(value) {
-      console.log({ value });
-      if (value) {
+      // console.log({ value });
+      if (value && value !== "") {
         this.currentSong = value;
 
         this.artists = value.item.album.artists
@@ -70,8 +70,9 @@ export default {
     },
   },
   created() {
-    console.log(this.accessToken);
-    console.log(this.currentlyPlaying);
+    // console.log(this.accessToken);
+    // console.log(this.currentlyPlaying);
+    console.log(this.currentSong);
     if (this.accessToken) {
       axios
         .get(`https://api.spotify.com/v1/me/player`, {
@@ -110,6 +111,7 @@ export default {
 .current-song {
   display: flex;
   align-items: center;
+  margin: 0 8px;
 }
 
 .current-song-image {
