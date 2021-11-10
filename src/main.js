@@ -45,8 +45,6 @@ library.add(
 const routes = [
   { path: "/", component: Home },
   { path: "/playlist/:id", component: Playlist },
-  // { path: "/home", component: App },
-  // { path: "/callback", component: App },
 ];
 
 const router = createRouter({
@@ -63,6 +61,7 @@ const store = createStore({
       playlists: null,
       currentlyPlaying: null,
       topArtists: null,
+      topTracks: null,
     };
   },
   mutations: {
@@ -81,6 +80,9 @@ const store = createStore({
     mutateTopArtists(state, payload) {
       state.topArtists = payload;
     },
+    mutateTopTracks(state, payload) {
+      state.topTracks = payload;
+    },
   },
   getters: {
     getUser(state) {
@@ -97,6 +99,9 @@ const store = createStore({
     },
     getTopArtists(state) {
       return state.topArtists;
+    },
+    getTopTracks(state) {
+      return state.topTracks;
     },
   },
 });

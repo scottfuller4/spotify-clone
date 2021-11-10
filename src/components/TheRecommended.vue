@@ -19,6 +19,28 @@
           <h4 class="recommended-card-title">{{ artist.name }}</h4>
         </div>
       </div>
+
+      <div class="recommended-title">
+        <h2>Top Tracks</h2>
+        <p class="see-all-button">SEE ALL</p>
+      </div>
+      <div class="recommended-card-container">
+        <div
+          v-for="track in topTracks"
+          :key="track.id"
+          class="recommended-card"
+        >
+          <img
+            :src="track.album?.images[0].url"
+            alt=""
+            class="recommended-card-img"
+          />
+          <h4 class="recommended-card-title">{{ track.name }}</h4>
+          <h5 class="recommended-card-subtitle">
+            {{ track.album.artists.map((artist) => artist.name).join(", ") }}
+          </h5>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -34,9 +56,12 @@ export default {
     topArtists() {
       return this.$store.getters.getTopArtists?.items.slice(0, 5);
     },
+    topTracks() {
+      return this.$store.getters.getTopTracks?.items.slice(0, 5);
+    },
   },
   created() {
-    if (this.accessToken) {
+    if (this.accessToken && !this.topArtists) {
       axios
         .get(`https://api.spotify.com/v1/me/top/artists`, {
           headers: {
@@ -46,6 +71,20 @@ export default {
         })
         .then((response) => {
           this.$store.commit("mutateTopArtists", response.data);
+        });
+    }
+
+    if (this.accessToken && !this.topTracks) {
+      axios
+        .get(`https://api.spotify.com/v1/me/top/tracks`, {
+          headers: {
+            Authorization: "Bearer " + this.accessToken,
+          },
+          json: true,
+        })
+        .then((response) => {
+          console.log({ response });
+          this.$store.commit("mutateTopTracks", response.data);
         });
     }
   },
@@ -100,5 +139,12 @@ export default {
   font-size: 14px;
   text-align: left;
   margin: 10px 0 0 0;
+}
+
+.recommended-card-subtitle {
+  font-size: 12px;
+  text-align: left;
+  margin: 5px 0 0 0;
+  color: #aeaeae;
 }
 </style>

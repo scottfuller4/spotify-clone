@@ -88,6 +88,8 @@ body {
 
 main {
   width: calc(100% - 240px);
+  max-height: 90vh;
+  height: 100vh;
 }
 
 p {
@@ -95,7 +97,8 @@ p {
 }
 
 .main-container {
-  padding: 24px 32px 0;
+  padding: 24px 32px;
+  max-height: inherit;
   overflow: scroll;
 }
 </style>

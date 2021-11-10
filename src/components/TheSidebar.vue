@@ -114,10 +114,6 @@ img {
   width: 52%;
 }
 
-/* .navItems {
-  padding: 0 8px;
-} */
-
 .navItem {
   display: flex;
   align-items: center;
@@ -134,6 +130,7 @@ img {
   margin: 0;
   font-weight: bold;
   font-size: 14px;
+  color: #aeaeae;
 }
 
 .navActions {
@@ -142,7 +139,6 @@ img {
 }
 
 .navItemLast {
-  /* border-bottom: 2px solid #282828; */
   padding-bottom: 5px;
 }
 
@@ -193,6 +189,6 @@ ul {
 
 .link {
   text-decoration: none;
-  color: var(--color-white);
+  color: #aeaeae;
 }
 </style>

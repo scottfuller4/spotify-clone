@@ -26,7 +26,10 @@
         </div>
         <div class="player-controls-progress"></div>
       </div>
-      <div>volume controls here</div>
+      <div class="volume-container">
+        <font-awesome-icon icon="volume-up" class="icon" />
+        <div class="volume-control"></div>
+      </div>
     </div>
     <div
       class="currently-playing-bar"
@@ -145,7 +148,6 @@ export default {
 .player-controls-buttons {
   display: flex;
   align-items: center;
-  /* justify-content: center; */
 }
 
 .icon {
@@ -157,7 +159,6 @@ export default {
   font-size: 14px;
   color: var(--color-black);
   background: var(--color-white);
-  /* padding: 12px; */
   border-radius: 50%;
   width: 32px;
   height: 32px;
@@ -170,8 +171,6 @@ export default {
 .icon-center {
   font-size: 14px;
   padding-left: 2px;
-
-  /* margin-right: 1px; */
 }
 
 .player-controls-progress {
@@ -180,6 +179,19 @@ export default {
   background: #535353;
   border-radius: 50px;
   margin-top: 12px;
+}
+
+.volume-container {
+  display: flex;
+  align-items: center;
+}
+
+.volume-control {
+  height: 4px;
+  width: 100px;
+  background: #b3b3b3;
+  border-radius: 50px;
+  margin-right: 20px;
 }
 
 .currently-playing-bar {
