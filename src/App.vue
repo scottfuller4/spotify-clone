@@ -6,8 +6,7 @@
         <main>
           <TheHeader :user="this.user" />
           <div class="main-container">
-            <TheFeatured />
-            <TheRecommended />
+            <router-view></router-view>
           </div>
         </main>
       </div>
@@ -26,8 +25,6 @@
 import TheHeader from "./components/TheHeader.vue";
 import ThePlayerBar from "./components/ThePlayerBar.vue";
 import TheSidebar from "./components/TheSidebar.vue";
-import TheFeatured from "./components/TheFeatured.vue";
-import TheRecommended from "./components/TheRecommended.vue";
 
 import axios from "axios";
 export default {
@@ -36,8 +33,6 @@ export default {
     TheHeader,
     ThePlayerBar,
     TheSidebar,
-    TheFeatured,
-    TheRecommended,
   },
   computed: {
     user() {

@@ -36,8 +36,6 @@ export default {
     },
   },
   created() {
-    console.log("top", this.topArtists);
-    // console.log(this.accessToken, this.userId);
     if (this.accessToken) {
       axios
         .get(`https://api.spotify.com/v1/me/top/artists`, {

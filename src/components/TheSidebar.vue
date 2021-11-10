@@ -7,7 +7,11 @@
         <!-- TODO: add icons -->
         <!-- <img src="" alt=""> -->
         <font-awesome-icon :icon="link.icon" class="icon" />
-        <p class="navTitle">{{ link.name }}</p>
+        <p class="navTitle">
+          <router-link to="/" class="link">
+            {{ link.name }}
+          </router-link>
+        </p>
       </div>
     </div>
     <div class="navActions">
@@ -35,7 +39,9 @@
     </div>
     <ul className="playlists">
       <li v-for="playlist in playlists" :key="playlist.id" className="playlist">
-        {{ playlist.name }}
+        <router-link :to="{ path: `/playlist/${playlist.id}` }" class="link">
+          {{ playlist.name }}
+        </router-link>
       </li>
     </ul>
   </div>
@@ -183,5 +189,10 @@ ul {
   margin: 16px 0;
   font-size: 14px;
   cursor: pointer;
+}
+
+.link {
+  text-decoration: none;
+  color: var(--color-white);
 }
 </style>

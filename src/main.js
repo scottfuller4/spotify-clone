@@ -1,5 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
+import Home from "./views/Home.vue";
+import Playlist from "./views/Playlist.vue";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faHome,
@@ -41,9 +43,10 @@ library.add(
 );
 
 const routes = [
-  { path: "/", component: App },
-  { path: "/home", component: App },
-  { path: "/callback", component: App },
+  { path: "/", component: Home },
+  { path: "/playlist/:id", component: Playlist },
+  // { path: "/home", component: App },
+  // { path: "/callback", component: App },
 ];
 
 const router = createRouter({
