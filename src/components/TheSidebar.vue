@@ -2,10 +2,7 @@
   <div class="side-bar">
     <img src="../assets/Spotify_Logo_RGB_White.png" alt="Spotify logo" />
     <div class="navItems">
-      <!-- TODO: this should be an <a> tag when I figure out routing -->
       <div v-for="link in navLinks" :key="link.id" class="navItem">
-        <!-- TODO: add icons -->
-        <!-- <img src="" alt=""> -->
         <font-awesome-icon :icon="link.icon" class="icon" />
         <p class="navTitle">
           <router-link to="/" class="link">

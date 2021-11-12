@@ -62,7 +62,6 @@ export default {
   },
   watch: {
     currentlyPlaying(value) {
-      // console.log({ value });
       if (value && value !== "") {
         this.currentSong = value;
 
@@ -73,9 +72,6 @@ export default {
     },
   },
   created() {
-    // console.log(this.accessToken);
-    // console.log(this.currentlyPlaying);
-    console.log(this.currentSong);
     if (this.accessToken) {
       axios
         .get(`https://api.spotify.com/v1/me/player`, {
@@ -85,7 +81,6 @@ export default {
           json: true,
         })
         .then((response) => {
-          // console.log("playing", response);
           this.$store.commit("mutateCurrentlyPlaying", response.data);
         });
     }

@@ -67,7 +67,6 @@ button {
 .userPhoto {
   width: 28px;
   height: 28px;
-  /* background: var(--color-white); */
   border-radius: 50%;
 }
 
